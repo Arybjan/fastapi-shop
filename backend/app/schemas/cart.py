@@ -4,7 +4,7 @@ from typing import Optional
 
 class CartItemBase(BaseModel):
     product: str = Field(..., description="Product ID")
-    quantity: int = Field(..., gt=0, description="Quantity (must be graeter than 0)")
+    quantity: int = Field(..., gt=0, description="Quantity (must be greater than 0)")
 
 
 class CartItemCreate(CartItemBase):
@@ -24,7 +24,7 @@ class CartItem(BaseModel):
     price: float = Field(..., description="Product price")
     quantity: int = Field(..., description="Quantity in cart")
     subtotal: float = Field(
-        ..., description="Total price for this item (price * quntity)"
+        ..., description="Total price for this item (price * quantity)"
     )
     image_url: str = Field(None, description="Product image URL")
 

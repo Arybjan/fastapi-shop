@@ -17,7 +17,7 @@ class CategoryRepository:
     def get_by_slug(self, slug: str) -> Optional[Category]:
         return self.db.query(Category).filter(Category.slug == slug).first()
 
-    def creat(self, category_data: CategoryCreate) -> Category:
+    def create(self, category_data: CategoryCreate) -> Category:
         db_category = Category(**category_data.model_dump())
         self.db.add(db_category)
         self.db.commit()

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
-from category import CatedoryResponse
+from category import CategoryResponse
 
 
 class ProductBase(BaseModel):
@@ -25,7 +25,7 @@ class ProductResponse(BaseModel):
     category_id: int
     image_url: Optional[str]
     created_at: datetime
-    category: CatedoryResponse = Field(..., description="Product category details")
+    category: CategoryResponse = Field(..., description="Product category details")
 
     class Config:
         form_attributes = True
