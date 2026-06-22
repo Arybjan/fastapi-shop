@@ -26,15 +26,27 @@ class ProductSchemas:
                 detail=f"Product with id {product_id} is not found",
             )
         return ProductResponse.model_validate(product)
-        
+
     def get_products_by_category(self, category_id: int) -> ProductListResponse:
         category = self.category_repository.get_by_id(category_id)
         if not category:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Category with id {category_id} not found"
+                detail=f"Category with id {category_id} not found",
             )
-        
+
         products = self.product_repository.get_by_category(category_id)
         products_response = [ProductResponse.model_validate(prod) for prod in products]
-        return ProductListResponse(products=products_response, total=len(products_response))
+        return ProductListResponse(
+            products=products_response, total=len(products_response)
+        )
+
+    def create_product(self, product_data: ProductCreate) -> ProductResponse:
+        category = self.category_repository.get_by_id(product_data.category_id)
+        if not category:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Category with id {product_data.category_id} does not exist",
+            )
+        product = self.product_repository.create(product_data)
+        return ProductResponse.model_validate(product)
