@@ -1,11 +1,12 @@
 from pydantic_settings import BaseSettings
+from typing import Union, List
 
 
 class Settings(BaseSettings):
-    app_name = "Test FastAPI"
+    app_name: str = "Shop FastAPI"
     debug: bool = True
     database_url: str = "sqlite:///./shop.db"
-    cors_origins = [
+    cors_origins: Union[List[str], str] = [
         "localhost:5173",
         "localhost:3000",
         "127.0.0.1:5173",

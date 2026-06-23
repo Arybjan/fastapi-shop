@@ -4,7 +4,7 @@ from ..database import get_db
 from ..schemas.product import ProductResponse, ProductListResponse
 from ..services.product_services import ProductService
 
-router = APIRouter(prefix="api/products", tags=["products"])
+router = APIRouter(prefix="/api/products", tags=["products"])
 
 
 @router.get("", response_model=ProductListResponse, status_code=status.HTTP_200_OK)
