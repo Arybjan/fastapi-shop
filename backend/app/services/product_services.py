@@ -8,8 +8,8 @@ from fastapi import HTTPException, status
 
 class ProductService:
     def __init__(self, db: Session):
-        self.product_repository = ProductRepository
-        self.category_repository = CategoryRepository
+        self.product_repository = ProductRepository(db)
+        self.category_repository = CategoryRepository(db)
 
     def get_all_products(self) -> ProductListResponse:
         products = self.product_repository.get_all()
