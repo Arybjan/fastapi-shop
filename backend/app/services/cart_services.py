@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
-from typing import List, Dict
-from ..schemas.cart import CartItem, CartItemUpdate, CartItemCreate, CartResponse
+from typing import Dict
 from ..repositories.product_repository import ProductRepository
-
+from ..schemas.cart import CartResponse, CartItem, CartItemCreate, CartItemUpdate
 from fastapi import HTTPException, status
 
 
@@ -19,7 +18,8 @@ class CartService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Product with id {item.product_id} not found",
             )
-        if item.product in cart_data:
+        
+        if item.product_id in cart_data:
             cart_data[item.product_id] += item.quantity
         else:
             cart_data[item.product_id] = item.quantity
@@ -46,12 +46,13 @@ class CartService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Product with id {product_id} not found in cart",
             )
+
         del cart_data[product_id]
         return cart_data
 
     def get_cart_details(self, cart_data: Dict[int, int]) -> CartResponse:
         if not cart_data:
-            return CartResponse(item=[], total=0.0, items_count=0)
+            return CartResponse(items=[], total=0.0, items_count=0)
 
         product_ids = list(cart_data.keys())
         products = self.product_repository.get_multiple_by_ids(product_ids)
@@ -74,8 +75,11 @@ class CartService:
                     subtotal=subtotal,
                     image_url=product.image_url,
                 )
+
                 cart_items.append(cart_item)
                 total_price += subtotal
                 total_items += quantity
 
-        return CartResponse(item=cart_items, total=total_price, items_count=total_items)
+        return CartResponse(
+            items=cart_items, total=round(total_price), items_count=total_items
+        )

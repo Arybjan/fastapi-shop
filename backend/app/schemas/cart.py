@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class CartItemBase(BaseModel):
-    product: str = Field(..., description="Product ID")
+    product_id: int = Field(..., description="Product ID")
     quantity: int = Field(..., gt=0, description="Quantity (must be greater than 0)")
 
 
@@ -30,6 +30,6 @@ class CartItem(BaseModel):
 
 
 class CartResponse(BaseModel):
-    item: list[CartItem] = Field(..., description="List of items in cart")
+    items: list[CartItem] = Field(..., description="List of items in cart")
     total: float = Field(..., description="Total cart price")
     items_count: int = Field(..., description="Total number of items in cart")

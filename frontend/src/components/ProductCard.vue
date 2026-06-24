@@ -76,8 +76,10 @@ const showNotification = ref(false)
 /**
  * Добавить товар в корзину
  */
-async function handleAddToCart() {
+ async function handleAddToCart() {
   adding.value = true
+  
+  // ИСПРАВЛЕНО: берем id из объекта product -> props.product.id
   const success = await cartStore.addToCart(props.product.id, 1)
 
   if (success) {
